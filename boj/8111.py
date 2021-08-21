@@ -1,55 +1,46 @@
 import sys
 
 from collections import deque
-from collections import defaultdict
 
 def bfs(n):
 
-	global parent
+	global check
 
-	q = deque()
-	check = [0] * n
-
-	q.append( 1 )
-	parent[1] = [-1, '1']
+	q = deque([1])
+	check[1] = ['1', -1]
 
 	while q:
-		k = q.popleft()
-		check[k] = 1
+		value = q.popleft()
 
-		if k == 0:
+		if value == 0:
 			break
 
-		k_zero = (k * 10) % n
-		k_one = (k * 10 + 1) % n
+		for post in [0, 1]:
+			vv = (value*10 + post) % n
+			if check[vv] == ['', 0]:
+				check[vv] = [str(post), value]
+				q.append(vv)
 
-		if check[k_zero] == 0:
-			parent[k_zero] = [k, '0']
-			q.append( k_zero )
-		if check[k_one] == 0:
-			parent[k_one] = [k, '1']
-			q.append( k_one )
-
-def get_path(idx):
+def make_number(idx):
 	global answer
+
 	if idx == -1:
 		return
-	get_path(parent[idx][0])
-	answer += parent[idx][1]
+	make_number(check[idx][1])
+	answer += check[idx][0]
 
-answer = []
 t = int(input())
 
 for _ in range(t):
-	n = int(sys.stdin.readline().strip())
-
-	if n == 1:
-		print(1)
-		continue
-
-	parent = [[-1, '-1'] for _ in range(n)]
-	bfs(n)
-
 	answer = ''
-	get_path(0)
-	print(answer if answer != '-1' else "BRAK")
+
+	n = sys.stdin.readline().strip()
+
+	check = [['', 0] for _ in range(int(n))]
+
+	if n.count('0') + n.count('1') == len(n):
+		print(n)
+	else:
+		bfs(int(n))
+		make_number(0)
+		print(answer)
