@@ -1,19 +1,24 @@
-from itertools import combinations
+import bisect
+from itertools import permutations
 
 def solution(n, weak, dist):
-    answer = 0
 
-    outer_wall = [ 0 for x in range(n) ]
+    len_weak = len(weak)
+    len_dist = len(dist)
+    weak = weak + [n+x for x in weak]
+    dist = sorted(dist, reverse=True)
 
-    for w in weak:
-    	outer_wall[w] = 1
+    for idx in range(1, len_dist + 1):
+        dist_permutate = permutations(dist, idx)
 
-    for l in range(len(dist)):
-    	dist_comb = combinations(dist, l+1)
+        for p in dist_permutate:
+            for i in range(len_weak):
+                start = weak[i]
+                finish = weak[i + len_weak - 1]
 
-    	for comb in dist_comb:
-    		print(comb)
-
-    return answer
-
-print(solution(12,[1, 5, 6, 10],[1, 2, 3, 4]))
+                for j in range(len(p)):
+                    start += p[j]
+                    if start >= finish:
+                        return len(p)
+                    start = weak[bisect.bisect_right(weak, start)]
+    return -1
