@@ -14,6 +14,7 @@ def spread_dust(a, b, y, x):
             count += 1
     b[y][x] -= (a[y][x] // 5) * count
 
+
 def spread_wind(b, up, down):
 
     for i in range(up-2, -1, -1):
