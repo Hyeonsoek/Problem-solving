@@ -1,4 +1,4 @@
-from collections import deque
+import heapq
 from itertools import combinations
 
 MAX = 987654321
@@ -6,16 +6,16 @@ MAX = 987654321
 def bfs(c):
     global board, virus, n, m
 
-    q = deque()
+    q = []
     dirr = [[-1, 0], [1, 0], [0, -1], [0, 1]]
     check = [[-1] * n for _ in range(n)]
 
     for y, x in c:
         check[y][x] = 0
-        q.append([y, x])
+        heapq.heappush(q, [0, y, x])
 
     while q:
-        y, x = q.popleft()
+        cost, y, x = heapq.heappop(q)
 
         for ydir, xdir in dirr:
             yy, xx = y + ydir, x + xdir
@@ -23,20 +23,18 @@ def bfs(c):
                     and check[yy][xx] == -1:
                 if board[yy][xx] == 1:
                     continue
-                check[yy][xx] = check[y][x] + 1
-                q.append([yy, xx])
+                if board[yy][xx] == 0:
+                    check[yy][xx] = cost + 1
+                else:
+                    check[yy][xx] = 0
+                heapq.heappush(q, [cost + 1, yy, xx])
 
     answer = 0
-    print("-----------------")
-    print(c)
-    for y in check:
-        print(*y)
     for i in range(n):
         for j in range(n):
             if check[i][j] == -1 and board[i][j] == 0:
                 return MAX
             answer = max(answer, check[i][j])
-    print(answer)
 
     return answer
 
@@ -63,24 +61,3 @@ for i in range(n):
             virus.append((i, j))
 
 print(solve())
-
-#  0  1  0  1 -1 -1  3
-#  3  2 -1  2 -1  3  2
-#  4 -1 -1 -1 -1  2  1
-#  0 -1  4  3  2  1  0
-# -1  6  5  4  3 -1 -1
-#  1 -1  6  5  4  5  6
-#  0 -1  2  1  0  1  0
-
-# 11 2
-# 1 1 0 1 1 1 1 1 0 1 1
-# 1 1 2 1 1 1 1 1 2 1 1
-# 0 1 2 1 1 1 0 1 2 1 1
-# 0 1 0 1 1 1 0 1 0 1 1
-# 0 0 2 0 0 1 0 0 2 0 0
-# 1 1 1 1 1 1 1 1 1 1 1
-# 1 1 1 1 1 1 1 1 1 1 1
-# 1 1 1 1 1 1 1 1 1 1 1
-# 1 1 1 1 1 1 1 1 1 1 1
-# 1 1 1 1 1 1 1 1 1 1 1
-# 1 1 1 1 1 1 1 1 1 1 1
