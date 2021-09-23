@@ -1,44 +1,54 @@
+import math
+import copy
 from collections import defaultdict
 
 dirr = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
 
 def even_or_odd(arr):
-    arr = list(map(lambda x: x%2==1, arr))
+    arr = list(map(lambda x: x % 2 == 1, arr))
     return sum(arr) == 0 or sum(arr) == len(arr)
 
 def move_fireball():
     global n, m, k, fireballs
 
-    keys = fireballs.keys()
+    items = copy.deepcopy(list(fireballs.items()))
 
-    for y, x in keys:
-        if not fireballs[(y, x)]:
-            continue
+    for key, fbs in items:
+        y, x = key
+        for fb in fbs[:]:
+            m, s, d = fb
+            yy = (y + dirr[d][0] * s) % n
+            xx = (x + dirr[d][1] * s) % n
 
-        m, d, s = fireballs[(y, x)][0]
-        yy = (y + dirr[d-1][0] * s) % n
-        xx = (x + dirr[d-1][1] * s) % n
+            fireballs[(yy, xx)].append([m, s, d])
 
-        fireballs[(yy, xx)].append([m, d, s])
+        for fb in fbs[:]:
+            fireballs[key].remove(fb)
 
-    keys = fireballs.keys()
+        if not fireballs[key]:
+            fireballs.pop(key)
 
-    for y, x in keys:
-        if len(fireballs[(y, x)]) > 1:
-            m, s = 0, 0
-            d = []
-            for mm, dd, ss in fireballs[(y, x)]:
+    items = list(fireballs.items())
+
+    for key, fb in items:
+        y, x = key
+        if len(fb) > 1:
+            m, s, d = 0, 0, []
+            for mm, ss, dd in fb:
                 m, s = m + mm, s + ss
                 d.append(dd)
-            start = 1 if even_or_odd(d) else 0
-            m //= 5
-            s = (s // len(fireballs[(y, x)])) % n
+
+            fireballs.pop((y, x))
+
+            m = math.floor(m/5)
+            s = math.floor(s/len(fb))
+            start = 0 if even_or_odd(d) else 1
+
+            if m == 0:
+                continue
 
             for nd in range(start, 8, 2):
-                yy = (y + dirr[nd-1][0] * s) % n
-                xx = (x + dirr[nd-1][0] * s) % n
-
-
+                fireballs[key].append([m, s, nd])
 
 
 n, m, k = map(int, input().split())
@@ -47,11 +57,13 @@ fireballs = defaultdict(list)
 
 for _ in range(m):
     ri, ci, mi, si, di = map(int, input().split())
-    fireballs[(ri-1, ci-1)].append([mi, si % n, di])
+    fireballs[(ri-1, ci-1)].append([mi, si, di])
 
-move_fireball()
+for _ in range(k):
+    move_fireball()
 
-# for _ in range(k):
-#     move_fireball()
-#
-# print(sum(map(sum, board)))
+answer = 0
+for value in fireballs.values():
+    answer += sum(map(lambda x: x[0], value))
+
+print(answer)
