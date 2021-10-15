@@ -50,9 +50,6 @@ int bfs() {
         int ry = rr.first, rx = rr.second;
         int by = bb.first, bx = bb.second;
 
-        if (cost >= 10)
-            break;
-
         for(int i=0; i<4; i++) {
             int rmove = 0, ryy = ry, rxx = rx;
             int bmove = 0, byy = by, bxx = bx;
@@ -64,7 +61,7 @@ int bfs() {
                 continue;
 
             if (board[ryy][rxx] == 'O')
-                return 1;
+                return cost+1;
 
             if (byy == ryy && bxx == rxx) {
                 if(rmove > bmove) {
@@ -84,7 +81,7 @@ int bfs() {
             
         }
     }
-    return 0;
+    return -1;
 }
 
 int main()
