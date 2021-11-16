@@ -3,3 +3,6 @@ boj/python/15898.py
 *.exe
 .vscode
 .idea
+*.in
+*.out
+*.java
