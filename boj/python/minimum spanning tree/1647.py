@@ -1,8 +1,7 @@
-# 덩어리가 2개가 되면 끝내는 풀이
+# 덩어리가 2개가 되면 끝내는 풀이 = 외딴섬 1개 + 나머지의 MST
 
 from sys import stdin
 
-check = False
 parent = [x for x in range(100001)]
 
 def find(u):
@@ -12,16 +11,15 @@ def find(u):
     return parent[u]
 
 def merge(u, v):
-    global check, parent
-    check = False
+    global parent
     u = find(u)
     v = find(v)
 
     if u == v:
-        return
+        return False
 
     parent[u] = v
-    check = True
+    return True
 
 
 N, M = map(int, input().split())
@@ -29,17 +27,12 @@ graph = [list(map(int, stdin.readline().split())) for _ in range(M)]
 
 graph.sort(key=lambda x: x[2])
 
-count = N
-result = 0
+count = 0
+result = []
 
 for a, b, value in graph:
-    merge(a, b)
+    if merge(a, b):
+        count += 1
+        result.append(value)
 
-    if check:
-        count -= 1
-        result += value
-
-        if count == 2:
-            break
-
-print(result)
+print(sum(sorted(result)[:-1]))
