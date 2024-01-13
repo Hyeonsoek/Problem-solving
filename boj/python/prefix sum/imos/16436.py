@@ -2,12 +2,6 @@ from sys import stdin
 from typing import List
 input = stdin.readline
 
-def pretty_print(array : List[list]):
-    for x in array:
-        print(" ".join(map(lambda value : "%5s" % value, x)))
-    print("---------------------------------------------------")
-
-
 w, h, m = map(int, input().split())
 
 rect = [[0 for _ in range(w + 1)] for _ in range(h + 1)]
@@ -37,8 +31,6 @@ for _ in range(m):
         diamond[py + 1][px - r] -= 1
         diamond[py + 1][px + r] -= 1
         diamond[py + 1][px + r + 1] -= 1
-    
-# pretty_print(diamond)
 
 #rect imos
 for y in range(h + 1):
@@ -63,8 +55,6 @@ for y in range(1, h + 2):
         diamond[yy][xx] += diamond[yy - 1][xx - 1]
         yy, xx = yy + 1, xx + 1
 
-# pretty_print(diamond)
-
 #left-up diagonal
 for x in range(w + 2):
     yy, xx = 1, x - 1
@@ -77,8 +67,6 @@ for y in range(1, h + 2):
     while yy < h + 2 and 0 <= xx < w + 2:
         diamond[yy][xx] += diamond[yy - 1][xx + 1]
         yy, xx = yy + 1, xx - 1
-        
-# pretty_print(diamond)
 
 #result
 for y in range(h):
