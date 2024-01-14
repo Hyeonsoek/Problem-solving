@@ -1,27 +1,19 @@
+from collections import defaultdict
+
 n = int(input())
 array = [input() for _ in range(n)]
-array.sort(key=lambda x: -len(x))
+weights = defaultdict(int)
 
-value = [[] for _ in range(10)]
+for word in array:
+    for digit, alphabet in enumerate(word[::-1]):
+        weights[alphabet] += 10 ** digit
 
-for _word in array:
-    for _digits, _char in enumerate(_word[::-1]):
-        value[_digits].append(_char)
-
-dic, Max_Value = {}, 9
-
-for char_array in value[::-1]:
-    for char in char_array:
-        if char not in dic:
-            dic[char] = Max_Value
-            Max_Value -= 1
+weight_list = sorted(list(weights.items()), key = lambda x : -x[1])
+max_value = 9
 
 result = 0
-for _word in array:
-    temp = 0
-    for _char in _word:
-        temp *= 10
-        temp += dic[_char]
-    result += temp
-
+for _, value in weight_list:
+    result += value * max_value
+    max_value -= 1
+    
 print(result)
