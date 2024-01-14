@@ -28,5 +28,3 @@ for x in range(n - 1, -1, -1):
         count -= 1
 
 print(*answer[::-1])
-# print(indexes)
-# print(lis)
