@@ -24,14 +24,16 @@ def dfs(node):
             parent[next][0] = node
             distance[next][0] = cost
             dfs(next)
-            
+
+depth[1] = 1
 dfs(1)
 
 for pow in range(1, MAX_DEPTH):
     for node in range(1, n + 1):
         prev = parent[node][pow - 1]
-        parent[node][pow] = parent[ prev ][pow - 1]
-        distance[node][pow] = distance[node][pow - 1] + distance[ prev ][pow - 1]
+        if prev:
+            parent[node][pow] = parent[ prev ][pow - 1]
+            distance[node][pow] = distance[node][pow - 1] + distance[ prev ][pow - 1]
     
 m = int(input())
 for _ in range(m):
