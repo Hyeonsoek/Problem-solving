@@ -13,3 +13,4 @@ for x in range(2, N+1):
 	cache[x] = min(cache[x], cache[x-1] + 1)
 
 print(cache[N])
+print(*cache)
