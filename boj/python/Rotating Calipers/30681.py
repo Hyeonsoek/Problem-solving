@@ -1,6 +1,5 @@
 import sys
 from math import atan2
-MAX = 3000001
 input = sys.stdin.readline
 
 def sub(a, b):
