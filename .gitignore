@@ -7,3 +7,6 @@ boj/python/15898.py
 *.in
 *.out
 *.java
+.idea/misc.xml
+.idea/Problem-solving.iml
+.idea/inspectionProfiles/profiles_settings.xml
