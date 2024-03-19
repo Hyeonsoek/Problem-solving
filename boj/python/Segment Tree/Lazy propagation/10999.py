@@ -53,11 +53,11 @@ def propagate(node, start, end):
         lazy[node] = 0
 
 n, m, k = map(int, input().split())
-array = [ 0 ] + [int(input()) for _ in range(n)]
+array = [0] + [int(input()) for _ in range(n)]
 
 height = 1 << (ceil(log2(n)) + 1) + 1
-tree = [ 0 ] * height
-lazy = [ 0 ] * height
+tree = [0] * height
+lazy = [0] * height
 
 init(1, 1, n)
 
