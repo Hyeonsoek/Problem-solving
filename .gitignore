@@ -1,6 +1,6 @@
-.vs
-programmers/kakao 2022 1st online test
-boj/python/15898.py
+.vscode
+legacy
+boj/15898.py
 *.exe
 .vscode
 .idea
