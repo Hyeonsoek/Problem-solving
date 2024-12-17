@@ -1,6 +1,5 @@
 import sys
-MAXE = 10 ** 5
-sys.setrecursionlimit(MAXE)
+sys.setrecursionlimit(10 ** 6)
 input = sys.stdin.readline
 
 class BCC:
@@ -10,13 +9,14 @@ class BCC:
         
         self.index = 1
         self.dfsn = [0] * n
-        self.stack = []
-        self.bcc = []
+        self.cut = set()
         
         for i in range(n):
             if self.dfsn[i] == 0:
                 self.DFS(i, -1)
-    
+        
+        self.cut = sorted(self.cut)
+        
     def DFS(self, vertex, prev):
         self.dfsn[vertex] = self.index
         self.index += 1
@@ -26,37 +26,34 @@ class BCC:
             if next == prev:
                 continue
             
-            if self.dfsn[vertex] > self.dfsn[next]:
-                self.stack.append((vertex, next))
-            
             if self.dfsn[next] > 0:
                 result = min(result, self.dfsn[next])
             else:
                 dfsnNext = self.DFS(next, vertex)
                 result = min(result, dfsnNext)
                 
-                if dfsnNext >= self.dfsn[vertex]:
-                    bcc = []
-                    while self.stack and self.stack[-1] != (vertex, next):
-                        bcc.append(self.stack.pop())
-                    if self.stack:
-                        bcc.append(self.stack.pop())
-                    self.bcc.append(bcc)
+                if dfsnNext > self.dfsn[vertex]:
+                    s, e = vertex + 1, next + 1
+                    if s > e:
+                        s, e = e, s
+                    self.cut.add((s, e))
         
         return result
 
 def solve():
     V, E = map(int, input().split())
     graph = [[] for _ in range(V)]
-    for i in range(E):
+    for _ in range(E):
         u, v = map(int, input().split())
+        u -= 1; v -= 1
         graph[u].append(v)
         graph[v].append(u)
-    
-    bcc = BCC(graph, V).bcc
-    
-    print(len(bcc))
-    for i in range(len(bcc)):
-        print(f'{i} : {bcc[i]}')
+
+    bcc = BCC(graph, V)
+
+    c = len(bcc.cut)
+    print(c)
+    for s, e in bcc.cut:
+        print(s, e)
 
 solve()
