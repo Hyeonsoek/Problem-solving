@@ -1,6 +1,3 @@
-# 2일동안 문제를 풀지못한 나는 결국엔 금단의 영역인
-# 갓글의 도움을 받아 풀고만다
-
 from collections import deque
 
 def is_in_board(y, x):
