@@ -27,7 +27,3 @@ def solve():
     print(n - high)
 
 solve()
-
-# arr = [*range(0, 20, 2)]
-# i = bisect_right(arr, 3) - 1
-# print(arr[i])
