@@ -1,4 +1,5 @@
 import sys
+from bisect import bisect_right
 input = sys.stdin.readline
 
 def solve():
@@ -36,11 +37,34 @@ def solve():
         build(node << 1 | 1, mid + 1, end)
         merge(node)
     
-    def query(left, right, node=1, start=0, end=n-1):
+    def query(left, right, k, node=1, start=0, end=n-1):
         if right < start or end < left:
-            return []
-        
+            return 0
+
         if left <= start and end <= right:
-            return tree[node]
+            return bisect_right(tree[node], k)
+
+        mid = (start + end) // 2
+        LL = query(left, right, k, node << 1, start, mid)
+        RR = query(left, right, k, node << 1 | 1, mid + 1, end)
+        return LL + RR
     
-        mid = (start + end) >> 1
+    build()
+    arr.sort()
+    
+    for _ in range(m):
+        i, j, k = map(lambda x: int(x) - 1, input().split())
+        low = -10 ** 9
+        high = 10 ** 9
+        while low <= high:
+            mid = (low + high) >> 1
+            q = query(i, j, mid)
+            
+            if k < q:
+                high = mid - 1
+            else:
+                low = mid + 1
+        
+        print(low)
+
+solve()
