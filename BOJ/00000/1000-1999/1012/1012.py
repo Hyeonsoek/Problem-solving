@@ -1,45 +1,43 @@
 import sys
 from collections import deque
+input = sys.stdin.readline
+DRX = [-1, 1, 0, 0]
+DRY = [0, 0, -1, 1]
 
-def bfs(M, N, board):
+def solve(M, N, board):
+	result = 0
+	visited = [[0 for _ in range(M)] for _ in range(N)]
 
-	answer = 0
-	dirr = [[1, 0],[-1, 0],[0, 1], [0, -1]]
-	check = [[0 for _ in range(M)] for _ in range(N)]
+	def bfs(y, x):
+		q = deque([(y, x)])
+
+		while q:
+			sy, sx = q.popleft()
+
+			for i in range(4):
+				ny = sy + DRY[i]
+				nx = sx + DRX[i]
+
+				if 0 <= ny < N and 0 <= nx < M and not visited[ny][nx] and board[ny][nx]:
+					q.append((ny, nx))
+					visited[ny][nx] = 1
+
+		return 1
 
 	for y in range(N):
 		for x in range(M):
-			if check[y][x] == 0 and board[y][x] == 1:
-				q = deque()
+			if not visited[y][x] and board[y][x]:
+				result += bfs(y, x)
 
-				q.append((y, x))
+	return result
 
-				while q:
-					yy, xx = q.popleft()
-
-					for ydir, xdir in dirr:
-						yyy = yy + ydir
-						xxx = xx + xdir
-
-						if 0 <= yyy < N and 0 <= xxx < M \
-							and check[yyy][xxx] == 0 \
-							and board[yyy][xxx] == 1:
-							q.append((yyy,xxx))
-							check[yyy][xxx] = 1
-
-				answer += 1
-
-	return answer
-
-T = int(sys.stdin.readline())
+T = int(input())
 
 for _ in range(T):
-	M, N, K = map(int, sys.stdin.readline().split())
-
+	M, N, K = map(int, input().split())
 	board = [[0 for _ in range(M)] for _ in range(N)]
-
 	for _ in range(K):
-		X, Y = map(int, sys.stdin.readline().split())
+		X, Y = map(int, input().split())
 		board[Y][X] = 1
 
-	print(bfs(M, N, board))
+	print(solve(M, N, board))
