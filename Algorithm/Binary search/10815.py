@@ -20,3 +20,14 @@ def find(x):
 
 for x in search:
     print(1 if find(x) else 0, end=' ')
+
+# import sys
+# input = sys.stdin.readline
+
+# def solve():
+#     n = int(input())
+#     arr = set(map(int, input().split()))
+#     m = int(input())
+#     sys.stdout.write(' '.join(map(lambda x: '1' if int(x) in arr else '0', input().split())))
+    
+# solve()
