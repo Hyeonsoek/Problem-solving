@@ -1,6 +1,10 @@
 #IDE
 .vscode
 .idea
+*/.vs
+*/bin
+*/obj
+*/Properties
 
 #venv
 .venv
@@ -8,10 +12,12 @@
 #folder
 legacy
 problem-solving
-boj/15898.py
+C#/Program.cs
 
 #file
 *.exe
 *.in
 *.out
-boj/13000/13705
+*.config
+*.csproj
+*.sln
