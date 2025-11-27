@@ -37,12 +37,12 @@ def dp(node, tree, cache):
 
     result = [0, 0]
     for child, cost in tree[node]:
-        child_result = dp(child, tree, cache)
-        child_result[1] = sum(child_result)
-        child_result[0] = (child_result[0] + 1) * cost
+        child = dp(child, tree, cache)
+        child[1] = sum(child)
+        child[0] = (child[0] + 1) * cost
 
-        result[1] = (result[1] + result[0] * child_result[0] + child_result[1]) % MOD
-        result[0] = (result[0] + child_result[0]) % MOD
+        result[1] = (result[1] + result[0] * child[0] + child[1]) % MOD
+        result[0] = (result[0] + child[0]) % MOD
 
     cache[node][0] = result[0]
     cache[node][1] = result[1]
