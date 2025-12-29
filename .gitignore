@@ -13,6 +13,8 @@
 legacy
 problem-solving
 C#/Program.cs
+C++/C++
+C++/x64
 
 #file
 *.exe
@@ -21,3 +23,6 @@ C#/Program.cs
 *.config
 *.csproj
 *.sln
+*.vcxproj
+*.filters
+*.user
