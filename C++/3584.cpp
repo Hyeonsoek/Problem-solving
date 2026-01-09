@@ -2,9 +2,9 @@
 #include <vector>
 using namespace std;
 
-typedef vector< vector<int> > graph;
+typedef vector< vector<int> > Graph;
 
-graph tree;
+Graph tree;
 vector<int> parent;
 vector<int> depth;
 
