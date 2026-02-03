@@ -1,6 +1,7 @@
 #IDE
 .vscode
 .idea
+.cph
 */.vs
 */bin
 */obj
@@ -11,7 +12,6 @@
 
 #folder
 legacy
-problem-solving
 C#/Program.cs
 C++/C++
 C++/x64
